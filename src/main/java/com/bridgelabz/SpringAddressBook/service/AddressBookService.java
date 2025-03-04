@@ -4,6 +4,7 @@ package com.bridgelabz.SpringAddressBook.service;
 
 
 
+import com.bridgelabz.SpringAddressBook.dto.AddressBookDTO;
 import com.bridgelabz.SpringAddressBook.model.AddressBook;
 import com.bridgelabz.SpringAddressBook.repository.AddressBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,12 @@ public class AddressBookService {
     @Autowired
     private AddressBookRepository repository;
 
-    public AddressBook saveEntry(AddressBook addressBook) {
+    public AddressBook saveEntry(AddressBookDTO addressBookDTO) {
+        AddressBook addressBook = new AddressBook();
+        addressBook.setName(addressBookDTO.getName());
+        addressBook.setPhoneNumber(addressBookDTO.getPhoneNumber());
+        addressBook.setEmail(addressBookDTO.getEmail());
+        addressBook.setAddress(addressBookDTO.getAddress());
         return repository.save(addressBook);
     }
 
@@ -30,13 +36,14 @@ public class AddressBookService {
         return repository.findById(id);
     }
 
-    public AddressBook updateEntry(Long id, AddressBook newEntry) {
+
+    public AddressBook updateEntry(Long id, AddressBookDTO newEntryDTO) {
         return repository.findById(id)
                 .map(entry -> {
-                    entry.setName(newEntry.getName());
-                    entry.setPhoneNumber(newEntry.getPhoneNumber());
-                    entry.setEmail(newEntry.getEmail());
-                    entry.setAddress(newEntry.getAddress());
+                    entry.setName(newEntryDTO.getName());
+                    entry.setPhoneNumber(newEntryDTO.getPhoneNumber());
+                    entry.setEmail(newEntryDTO.getEmail());
+                    entry.setAddress(newEntryDTO.getAddress());
                     return repository.save(entry);
                 })
                 .orElseThrow(() -> new RuntimeException("Entry not found"));

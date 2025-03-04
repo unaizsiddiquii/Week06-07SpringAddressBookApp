@@ -4,6 +4,7 @@ package com.bridgelabz.SpringAddressBook.controller;
 
 
 
+import com.bridgelabz.SpringAddressBook.dto.AddressBookDTO;
 import com.bridgelabz.SpringAddressBook.model.AddressBook;
 import com.bridgelabz.SpringAddressBook.service.AddressBookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,10 @@ public class AddressBookController {
     @Autowired
     private AddressBookService service;
 
+
     @PostMapping("/add")
-    public ResponseEntity<AddressBook> addEntry(@RequestBody AddressBook addressBook) {
-        return ResponseEntity.ok(service.saveEntry(addressBook));
+    public ResponseEntity<AddressBook> addEntry(@RequestBody AddressBookDTO addressBookDTO) {
+        return ResponseEntity.ok(service.saveEntry(addressBookDTO));
     }
 
     @GetMapping("/all")
@@ -36,9 +38,10 @@ public class AddressBookController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+
     @PutMapping("/update/{id}")
-    public ResponseEntity<AddressBook> updateEntry(@PathVariable Long id, @RequestBody AddressBook newEntry) {
-        return ResponseEntity.ok(service.updateEntry(id, newEntry));
+    public ResponseEntity<AddressBook> updateEntry(@PathVariable Long id, @RequestBody AddressBookDTO newEntryDTO) {
+        return ResponseEntity.ok(service.updateEntry(id, newEntryDTO));
     }
 
     @DeleteMapping("/delete/{id}")
